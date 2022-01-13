@@ -1,0 +1,79 @@
+// 最外层盒子  每列 自己结合flex布局使用
+.box{
+	padding:30rpx 40rpx;
+	background-color: #fff;
+	border-radius: 10rpx;
+	margin: 20rpx 0;
+	// 盒子标题
+	.box-title{
+		margin-bottom:15rpx;
+		font-weight: bold;
+	}
+	// 每列
+	.menu{
+		padding:40rpx 0;
+		// 每列 title
+		.menu-title{
+			width: 300rpx;
+		}
+		// 每列内容
+		.menu-content{
+			color:#999;
+		}
+	}
+}
+.required::after{
+  content: '*';
+  color: #f33;
+}
+
+.page-bg{
+  background-color: #f6f7f8;
+}
+	
+/* #ifdef APP-PLUS ||MP-WEIXIN */
+	checkbox .wx-checkbox-input {
+		width: 30rpx;
+		height: 30rpx;
+		border-radius: 50% !important;
+		color: #ffffff !important;
+	}
+
+	checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
+		content: '';
+		width: 90%;
+		height: 90%;
+		border-radius: 50% !important;
+		color: #fff;
+		background: #4cd964;
+	}
+/* #endif */
+	
+	
+/* 复选框未选中前的样式 */
+/deep/ .uni-checkbox-input {
+	width: 36upx;
+	height: 36upx;
+	border-radius: 50%;
+	margin-right: 0;
+}
+
+/* 复选框取消默认样式 */
+/deep/ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked:before {
+		font: normal normal normal 14px/1 uni;
+		content: "\EA08";
+		font-size: 0; /* 重点使用这一步取消的默认样式 */
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-48%) scale(.73);
+		-webkit-transform: translate(-50%,-48%) scale(.73);
+}
+
+/* 重新定义复选框选中后的样式*/
+/deep/ .uni-checkbox-input-checked::before {
+	width: 20upx;
+	height: 20upx;
+	/* background: #007aff; */
+	/* border-radius: 50%; */
+}
