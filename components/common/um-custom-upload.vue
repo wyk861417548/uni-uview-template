@@ -1,35 +1,30 @@
 <template>
-	<!-- j-full-curbox 当前元素占满全屏  j-flex-col flex垂直布局 -->
-	<view>
-		<!-- 设置一些自定义 -->
+  <view class="my-upload flex-align">
+    
+    <!-- 已上传图片展示区域 -->
+    <view class="uploadList upBox" :style="{width:width,height:height}"  @click.stop="" v-for='(item,index) in uploadList' :key='index'>
+      <slot name="container">
+        <p :style="{background:'url('+item.path+') no-repeat center/cover'}" style="width:100%;height:100%;" alt="图片" @click="handleView(item.path)"></p>
+        <u-icon class="_del"  name="close-circle" color="#2979ff" size="40" @click="handleRemove(index)"></u-icon>
+      </slot>
+    </view>
 
-		<view class="my-upload flex" :style="{width:width,height:height}">
-			
-			<!-- 已上传图片展示区域 -->
-			<view class="uploadList upBox"  @click.stop="" v-for='(item,index) in uploadList' :key='index'>
-				<slot name="container">
-					<p :style="{background:'url('+item.path+') no-repeat center/cover'}" style="width:100%;height:100%;" alt="图片" @click="handleView(item.path)"></p>
-          <u-icon class="_del"  name="close-circle" color="#2979ff" size="40" @click="handleRemove(index)"></u-icon>
-				</slot>
-			</view>
+    <!-- 选择图片区域 -->
+    <view v-if="max > uploadList.length" @click="chooseImage">
+      <slot>
+        <view class="upload upBox" :style="{width:width,height:height}">
+          <text class="j-full-center">+</text>
+        </view>
+      </slot>
+    </view>
 
-			<!-- 选择图片区域 -->
-			<view v-if="max > uploadList.length" @click="chooseImage">
-				<slot>
-          <view class="upload upBox">
-            <text class="j-full-center">+</text>
-          </view>
-        </slot>
-			</view>
-
-			<!-- 预览图片区域 -->
-			<view v-show="preview" @click="closeView" class="preview j-full-curbox ban-child">
-				<view class="j-full-center">
-					<image :src="previewImg" :style="{width:previewWidth}" mode="widthFix" alt="图片">
-				</view>
-			</view>
-		</view>
-	</view>
+    <!-- 预览图片区域 -->
+    <view v-show="preview" @click="closeView" class="preview j-full-curbox ban-child">
+      <view class="j-full-center">
+        <image :src="previewImg" :style="{width:previewWidth}" mode="widthFix" alt="图片">
+      </view>
+    </view>
+  </view>
 
 </template>
 
@@ -40,7 +35,7 @@
 			// 最大上传数
 			max: {
 				type: Number,
-				default: 1
+				default: 2
 			},
 			
 			width:{
@@ -53,10 +48,24 @@
 			  default:"260rpx"
 			},
 
+      // 图片大小限制
+      maxSize:{
+        type:Number,
+        default:10 * 1024 * 1024
+      },
+
+      // 上传图片限制
+      limitType:{
+        type:Array,
+        default:()=>{
+          return ['jpeg', 'jpg', 'png']
+        },
+      },
+
 			// 用于父组件接受已上传的图片名称
 			name: {
 				typeof: String,
-				default: "upload"
+				default: "name"
 			},
 
       // 预览图片宽度
@@ -87,10 +96,21 @@
 					count: 1,
 					success: res => {
 						const path = res.tempFilePaths[0]
+
+            if(this.limitType.indexOf(path.split('.')[1]) == -1){
+              uni.showToast({title:`只支持${this.limitType.join(',')}格式图片`,icon:"none"})
+              return;
+            }
+
+            if(this.maxSize < res.tempFiles[0].size){
+              uni.showToast({title:"超出文件允许大小",icon:"none"})
+              return;
+            }
 						
 						uni.getImageInfo({
 							src: path,
 							success:(info)=>{
+
 								const options = {
 									filePath: path,
 									cloudPath: Date.now() + '.' + info.type.toLowerCase()
@@ -135,7 +155,6 @@
 
 			// 移除图片
 			handleRemove(index) {
-				console.log("index",index);
 				this.uploadList.splice(index, 1)
 			}
 		},
