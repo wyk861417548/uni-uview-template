@@ -72,7 +72,7 @@ const store = new Vuex.Store({
 		// 设置token
 		setToken(state,token){
       state.userinfo = false;
-			state.token = token;
+			state.token = {};
 			saveState(state);
 		},
 		
