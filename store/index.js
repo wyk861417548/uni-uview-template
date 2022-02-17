@@ -65,12 +65,13 @@ const store = new Vuex.Store({
 		
 		// 用户退出登录
 		userRegister(state){
-			state = {};
+			state.token = {};
 			saveState(state,true);
 		},
 		
 		// 设置token
 		setToken(state,token){
+      state.userinfo = false;
 			state.token = token;
 			saveState(state);
 		},
