@@ -35,7 +35,7 @@
 			// 最大上传数
 			max: {
 				type: Number,
-				default: 2
+				default: 1
 			},
 			
 			width:{
@@ -94,7 +94,9 @@
 			chooseImage(){
 				uni.chooseImage({
 					count: 1,
+					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
 					success: res => {
+						console.log('压缩后信息',res);
 						const path = res.tempFilePaths[0]
 
             if(this.limitType.indexOf(path.split('.')[1]) == -1){
@@ -209,7 +211,7 @@
 		.preview {
 			position: fixed;
 			z-index: 999;
-			background: rgba(0, 0, 0, 0.6);
+			background: rgba(0, 0, 0, 0.8);
 		}
 	}
 </style>
