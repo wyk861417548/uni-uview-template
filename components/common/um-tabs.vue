@@ -1,6 +1,6 @@
 <template>
 	<view class="tabbar j-flex">
-		<view :class="[{active:isCurrent(item.url)},item.class?'left':'right']" class="flex-adapt list flex-align" v-for="(item,index) in list" :key="index" @click="skip(item.url)">
+		<view :class="[{active:isCurrent(item.url)},item.class?'left':'right']" class="flex-adapt list j-flex-a" v-for="(item,index) in list" :key="index" @click="skip(item.url)">
       <view>
         <img :src="require(`@/static/images/tabBar/${isCurrent(item.url)?item.imgActive:item.img}.png`)" alt="" style="width:50rpx;height:50rpx;">
         <view class="font12">{{item.name}}</view>

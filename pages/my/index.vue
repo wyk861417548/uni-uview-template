@@ -6,7 +6,7 @@
           <u-avatar v-if="!isLogin" :src="require('@/static/images/avatar.png')" size="140"></u-avatar>
           <u-avatar v-if="isLogin" :src="info.img" size="140"></u-avatar>
         </section>
-        <section class="title flex-adapt flex-align mb-10">
+        <section class="title flex-adapt j-flex-a mb-10">
           <p class="u-font-18 u-tips-color">{{info.name}}</p>
           <image  :src="require('@/static/images/icon/'+sexImg[info.sex]+'.png')" alt="">
         </section>
@@ -21,7 +21,7 @@
 
         <section class="menu">
           <figure class="j-flex" v-for="(item,index) in menuList" :key="index" @click="$skip" :data-url="item.url">
-            <figcaption class="flex-align">
+            <figcaption class="j-flex-a">
               <image :src="require(`@/static/images/menu/${item.img}.png`)" alt="">
               <span>{{item.name}}</span>
             </figcaption>
@@ -31,7 +31,7 @@
 
         <section class="menu mt-30"  @click="$skip" data-url="/pages/my/info">
           <figure class="j-flex" >
-            <figcaption class="flex-align">
+            <figcaption class="j-flex-a">
               <image :src="require(`@/static/images/menu/set.png`)" alt="">
               <span>登陆设置</span>
             </figcaption>

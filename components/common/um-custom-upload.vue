@@ -1,5 +1,5 @@
 <template>
-  <view class="my-upload flex-align">
+  <view class="my-upload j-flex-a">
     
     <!-- 已上传图片展示区域 -->
     <view class="uploadList upBox" :style="{width:width,height:height}"  @click.stop="" v-for='(item,index) in uploadList' :key='index'>
