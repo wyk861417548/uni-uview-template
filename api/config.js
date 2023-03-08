@@ -8,13 +8,30 @@ export default{
     }
     
     return '?data='+ encodeURIComponent(JSON.stringify(obj));
-
   },
 	
-	// 电话号码截取替换
-	stringReg(str){
-		return str?str.slice(0,3) + "****" + str.slice(8):'';
-	},
+	/**
+   * 数据脱敏显示
+   * str 脱敏字符串
+   * start 开始位置留字符数量
+   * end 结束位置留字符数量
+   * fixflag 脱敏显示字符
+   */
+  stringTakeoff(str, start, end, fixflag = '*') {
+    const fixStr = []
+
+    const endPoint = str.length - end
+
+    for (let i = 0; i < str.length; i++) {
+      if (i < start || (i >= endPoint && str.length > 2)) {
+        fixStr.push(str[i])
+      } else {
+        fixStr.push(fixflag)
+      }
+    }
+
+    return fixStr.join('')
+  },
 	
 	//获取当前页面的路由地址
 	getRouter(){
