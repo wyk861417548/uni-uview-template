@@ -1,7 +1,13 @@
 <template>
   <div class="j-full-curbox j-flex-col">
     <div class="flex-adapt container">
-      1
+      <um-upload :customType="true" customName="点击上传人像面" name="idCardPicId" img="card_pros"  v-model="id"></um-upload>
+
+      <um-custom-upload v-model="id">
+        <view  class="custom" style="position:relative;width: 476rpx;height: 260rpx;" :style="{background:'url('+require(`@/static/images/card/card_pros.png`)+') no-repeat 0 0/100% 100%'}">
+          <view class="" style="position:absolute;left:50%;top:65%;transform:translateX(-50%);width:90%;text-align:center;">点击上传人像面</view>
+        </view>
+      </um-custom-upload>
     </div>
     
     <!-- 自定义tabBar组件 -->
@@ -13,14 +19,30 @@
 <script>
 export default {
   data () {
-    return {};
+    return {
+      id:[]
+    };
   },
 
   onShow(){
 		console.log(uni.$u.config.v);
+    // this.init();
 	},
 
   methods: {
+    init(){
+      this.$api.test().then((res) => {
+        console.log('res',res);
+      })
+    }
+  },
+  watch:{
+    id:{
+      handler(newVal){
+        console.log('id',newVal);
+      },
+      deep:true
+    }
   }
 }
 </script>

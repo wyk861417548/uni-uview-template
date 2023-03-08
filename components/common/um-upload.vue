@@ -13,10 +13,13 @@
 		size-type="['compressed']"
     @on-remove="onRemove"
     @on-choose-complete="beforeUpload"
-    >
-      <view  slot="addBtn" class="custom" style="position:relative;" v-if="customType"   :style="{background:'url('+require(`@/static/images/card/${img}.png`)+') no-repeat 0 0/100% 100%',width:width,height:height}">
-				<view class="" style="position:absolute;left:50%;top:65%;transform:translateX(-50%);width:90%;text-align:center;">{{customName}}</view>
-			</view>
+    > 
+      <slot>
+        <view slot="addBtn" class="custom" style="position:relative;" v-if="customType"   :style="{background:'url('+require(`@/static/images/card/${img}.png`)+') no-repeat 0 0/100% 100%',width:width,height:height}">
+          <view class="" style="position:absolute;left:50%;top:65%;transform:translateX(-50%);width:90%;text-align:center;">{{customName}}</view>
+        </view>
+      </slot>
+      
   </u-upload>
 </template>
 
@@ -85,27 +88,18 @@
 		},
 		methods:{
       beforeUpload(file){
-        console.log("信息",file);
         if(file.length < 1) return;
-
         var curfile = file[file.length-1].file;
-
         this.upload(curfile)
-
       },
 
       // 上传图片
       upload(file){
         console.log("file",file);
-        this.$postmult(this.$api.common.upload,{filePath: file.path},{back:true}).then((res) => {
-          if(res.code == 200){
-            this.uploadList.push(res.data.id)
-            uni.showToast({title:"上传成功",icon:"none"})
-            
-            return;
-          }
-          uni.showToast({title:"上传失败，请重新选取照片上传",icon:"none"})
-        });
+        this.$api.common.upload({filePath: file.path}).then((res) => {
+          this.uploadList.push(res.data.id)
+          uni.showToast({title:"上传成功",icon:"none"})
+        }).catch(()=>uni.showToast({title:"上传失败，请重新选取照片上传",icon:"none"}));
        
       },
 
@@ -117,11 +111,8 @@
 
     watch:{
       uploadList(newVal){
-        var data = {
-          name:this.name,
-          value:newVal
-        }
-        this.$emit("change",data)
+        this.$emit('input',newVal)
+        this.$emit("change",{name:this.name,value:newVal})
       }
     }
 

@@ -112,7 +112,6 @@
 						uni.getImageInfo({
 							src: path,
 							success:(info)=>{
-
 								const options = {
 									filePath: path,
 									cloudPath: Date.now() + '.' + info.type.toLowerCase()
@@ -130,16 +129,10 @@
 			
       // 上传图片
       upload(options){
-        console.log("upload",options);
-        this.$postmult(this.$api.common.upload,options,{back:true}).then((res) => {
-          if(res.code == 200){
-            this.uploadList.push({path:options.filePath,id:res.data.id})
-            uni.showToast({title:"上传成功",icon:"none"})
-            
-            return;
-          }
-          uni.showToast({title:"上传失败，请重新选取照片上传",icon:"none"})
-        });
+        this.$api.common.upload(options).then((res) => {
+          this.uploadList.push({path:options.filePath,id:res.data.id})
+          uni.showToast({title:"上传成功",icon:"none"})
+        }).catch(()=>uni.showToast({title:"上传失败，请重新选取照片上传",icon:"none"}));
       },
 
 			// 预览大图
@@ -163,11 +156,8 @@
 
 		watch: {
 			uploadList(newVal) {
-				var data = {
-					name: this.name,
-					value: newVal
-				}
-				this.$emit("change", data)
+				this.$emit('input',newVal)
+        this.$emit("change",{name:this.name,value:newVal})
 			}
 		}
 	}

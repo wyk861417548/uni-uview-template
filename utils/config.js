@@ -6,7 +6,6 @@ export default{
     if(boolen == false){
       return JSON.parse(decodeURIComponent(obj.data))
     }
-    
     return '?data='+ encodeURIComponent(JSON.stringify(obj));
   },
 	

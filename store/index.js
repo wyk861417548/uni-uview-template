@@ -15,7 +15,7 @@ let state = {
 	// 跳转地址
 	jumpUrl:"",
 
-  token:"",
+  token:"c623a8ee39e589954e822f1470013d61",
 
   applyInfo:null
 
@@ -40,16 +40,11 @@ let saveState = function(state,boolen){
 
 //初始化状态数据
 let initState = function(){
-	
 	let localData = uni.getStorageSync(localKey);
-		
 	let tempData = localData ? JSON.parse(localData) : {};
-	
 	for(var i in tempData){
 		state[i] = tempData[i];
 	}
-	
-	
 	return state;
 }
 
